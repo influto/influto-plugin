@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/validate-code",
+  "request": { "code": "FITGURU30" },
+  "response": { "valid": true, "code": "FITGURU30", "campaign": { "id": "c1", "name": "Summer", "description": null, "commission_percentage": 30.0, "campaign_type": "public" }, "influencer": { "name": "Fit Guru", "social_handle": "@fitguru", "follower_count": 120000 }, "custom_data": null, "message": "Valid code! Referred by Fit Guru" }
+}

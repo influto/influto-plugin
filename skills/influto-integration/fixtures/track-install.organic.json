@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/track-install",
+  "request": { "platform": "ios", "os_version": "18.2" },
+  "response": { "attributed": false, "message": "No matching referral click found (organic install)" }
+}

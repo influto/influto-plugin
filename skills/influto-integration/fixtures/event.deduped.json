@@ -1,0 +1,6 @@
+{
+  "endpoint": "POST /sdk/event",
+  "note": "Second identical POST (same once-only type/props) dedups.",
+  "request": { "eventType": "trial_started", "appUserId": "user_123", "properties": { "plan": "monthly" }, "eventId": "11111111-2222-4333-8444-555555555555" },
+  "response": { "tracked": true, "event_id": "row-abc", "duplicate": true, "dedup_reason": "once_only_type_already_recorded" }
+}

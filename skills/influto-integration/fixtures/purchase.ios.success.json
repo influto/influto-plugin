@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/purchase",
+  "request": { "platform": "ios", "signedTransaction": "eyJhbGc...storekit2.jws", "appUserId": "user_123", "referralCode": "FITGURU30" },
+  "response": { "success": true, "validated": "apple", "environment": "Production", "event_type": "INITIAL_PURCHASE", "result": { "processed": true } }
+}

@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/init",
+  "request": { "app_version": "1.2.3", "sdk_version": "1.5.0", "platform": "android" },
+  "response": { "app_id": "a1b2c3", "app_name": "Demo App", "attribution_window_hours": 24, "campaigns": [], "initialized": true }
+}

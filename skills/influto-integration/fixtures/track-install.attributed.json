@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/track-install",
+  "request": { "platform": "android", "os_version": "14", "screen_resolution": "1080x2400", "timezone": "Europe/Prague", "language": "cs-CZ" },
+  "response": { "attributed": true, "referral_code": "FITGURU30", "attribution_method": "ip_device_match", "clicked_at": "2026-06-14T10:00:00Z", "message": "Install attributed successfully" }
+}

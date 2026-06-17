@@ -1,0 +1,13 @@
+{
+  "name": "influto",
+  "owner": { "name": "InfluTo Team", "email": "info@influ.to", "url": "https://influ.to" },
+  "plugins": [
+    {
+      "name": "influto",
+      "source": "./",
+      "description": "Integrate InfluTo referral/affiliate attribution into a mobile app and manage the platform from your editor.",
+      "version": "1.0.0",
+      "keywords": ["affiliate", "referral", "attribution", "revenuecat", "mobile-sdk"]
+    }
+  ]
+}

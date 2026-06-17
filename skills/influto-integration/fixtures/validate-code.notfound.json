@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/validate-code",
+  "request": { "code": "ZZZZ" },
+  "response": { "valid": false, "error": "Code not found or inactive", "error_code": "CODE_NOT_FOUND" }
+}

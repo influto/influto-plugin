@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "influto": {
+      "type": "http",
+      "url": "https://influ.to/mcp",
+      "headers": {
+        "Authorization": "Bearer ${INFLUTO_API_KEY}"
+      }
+    }
+  }
+}

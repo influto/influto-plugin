@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/purchase",
+  "request": { "platform": "android", "purchaseToken": "opgfcpomcc...144chars", "appUserId": "user_123", "referralCode": "FITGURU30" },
+  "response": { "success": true, "validated": "google", "environment": "PRODUCTION", "event_type": "INITIAL_PURCHASE", "result": { "processed": true } }
+}
