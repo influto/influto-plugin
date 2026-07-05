@@ -1,12 +1,29 @@
 {
   "name": "influto",
   "displayName": "InfluTo",
-  "version": "2.0.0",
-  "description": "Wire InfluTo referral/affiliate attribution into a mobile app (iOS, Android, React Native, Flutter), pick RevenueCat vs store-direct validation, and verify it is live — then run the whole affiliate program from the editor: campaigns with milestone bonuses, creator invites and join links, fraud-filtered analytics. Connects via OAuth in one browser click (no keys to copy).",
-  "author": { "name": "InfluTo Team", "email": "info@influ.to", "url": "https://influ.to" },
+  "version": "2.1.0",
+  "description": "Wire InfluTo referral/affiliate attribution into a mobile app (iOS, Android, React Native, Flutter), pick RevenueCat vs store-direct validation, and verify it is live \u2014 then run the whole affiliate program from the editor: campaigns with milestone bonuses, creator invites and join links, fraud-filtered analytics. Connects via OAuth in one browser click (no keys to copy).",
+  "author": {
+    "name": "InfluTo Team",
+    "email": "info@influ.to",
+    "url": "https://influ.to"
+  },
   "homepage": "https://docs.influ.to/agents",
   "repository": "https://github.com/influto/influto-plugin",
   "license": "MIT",
-  "keywords": ["affiliate", "referral", "attribution", "revenuecat", "mobile-sdk", "influencer", "ios", "android", "react-native", "flutter", "mcp", "oauth"],
+  "keywords": [
+    "affiliate",
+    "referral",
+    "attribution",
+    "revenuecat",
+    "mobile-sdk",
+    "influencer",
+    "ios",
+    "android",
+    "react-native",
+    "flutter",
+    "mcp",
+    "oauth"
+  ],
   "mcpServers": ".mcp.json"
 }

@@ -1,13 +1,24 @@
 {
   "name": "influto",
-  "owner": { "name": "InfluTo Team", "email": "info@influ.to", "url": "https://influ.to" },
+  "owner": {
+    "name": "InfluTo Team",
+    "email": "info@influ.to",
+    "url": "https://influ.to"
+  },
   "plugins": [
     {
       "name": "influto",
       "source": "./",
-      "description": "Integrate InfluTo referral/affiliate attribution into a mobile app and run the affiliate program (campaigns, bonuses, creators, analytics) from your editor — OAuth connect, no keys.",
-      "version": "2.0.0",
-      "keywords": ["affiliate", "referral", "attribution", "revenuecat", "mobile-sdk", "mcp"]
+      "description": "Integrate InfluTo referral/affiliate attribution into a mobile app and run the affiliate program (campaigns, bonuses, creators, analytics) from your editor \u2014 OAuth connect, no keys.",
+      "version": "2.1.0",
+      "keywords": [
+        "affiliate",
+        "referral",
+        "attribution",
+        "revenuecat",
+        "mobile-sdk",
+        "mcp"
+      ]
     }
   ]
 }

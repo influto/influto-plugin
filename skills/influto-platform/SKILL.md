@@ -88,18 +88,32 @@ The full campaign-shaping and creator surface:
 3. **Activate** — `influto_set_campaign_status(campaignId, "active")`. A **402** means the wallet
    escrow is short: `influto_get_wallet` shows the gap, `influto_get_wallet_topup_link` mints the
    funding URL for the human; retry after funding.
-4. **Recruit creators** — for open recruiting, `influto_get_join_link` (heed its warnings — the
-   link only works for an active, public, accepting campaign; it unfurls with an OG card and is
-   paste-ready for DMs/bios). For curated partners, `influto_invite_creator(email, language?,
-   message?, custom_commission_percentage?)`; track with `influto_list_invitations` (a re-send is
-   a fresh invite to the same email).
+4. **Recruit creators** — three channels, and INVITES ARE RATE-LIMITED (anti-spam):
+   - **Join link** (`influto_get_join_link`) — unlimited, self-serve; paste-ready for DMs/bios,
+     unfurls with an OG card. Heed its warnings (only works for an active, public, accepting
+     campaign). This is the scaling wedge — "bring your own creator".
+   - **Email invites** — capped at **100 per org per 24h**. One targeted, personalized invite:
+     `influto_invite_creator(email, name?, message?, language?, custom_commission_percentage?)`
+     (the `message` is delivered in the invitation email). For a CSV/list, use
+     `influto_invite_creators_batch(invites=[{email, name?, message?, language?}], default_message?)`
+     — it accounts for capacity live and returns per-item `sent | skipped_capacity |
+     skipped_duplicate | error`, so a partial run is normal.
+   - **Marketplace invites** (inviting existing directory creators, `source:"marketplace"`) are
+     capped by ESCROW: **1 outstanding slot per $20** of safe wallet balance. **ALWAYS read
+     `influto_get_wallet` → `invite_capacity` first** (`marketplace_remaining`, `email_remaining`)
+     and size the batch to it — never try to invite everyone. A 402 = wallet too low (mint a
+     top-up link); a 429 = capacity/daily limit reached.
+   Track with `influto_list_invitations`; free a marketplace slot by withdrawing a still-pending
+   invite via `influto_withdraw_invitation` (a re-send is a fresh invite to the same email).
 5. **Equip creators** — `influto_list_assets` + `influto_set_asset_featured` curate the join-page
    "what creators post" examples (feature the strongest 3–6); uploads go through
    `influto_get_asset_upload_link` (human opens it). If the app has `auto_issue_creator_codes` ON,
    each joining creator also gets a personal `INFLU-…` free-access code (state visible in
    `influto_list_free_codes`); mint your own comp codes with `influto_create_free_code`.
 6. **Monitor** — `influto_get_analytics_overview` (canonical fraud-filtered clicks +
-   decomposition, installs, trials, conversions, revenue, commission), then drill:
+   decomposition, installs, trials, conversions, revenue, commission). Note `conversions.total`
+   = PAID conversions (someone who actually subscribed); `conversions.acquired_users` = all
+   attributed sign-ups incl. trials that never paid — don't confuse the two. Then drill:
    `influto_get_campaign_funnel` (where does it leak?), `influto_get_daily_performance` (trend),
    `influto_list_top_affiliates` / `influto_list_affiliates` (who to reward or re-engage —
    includes live milestone progress).
