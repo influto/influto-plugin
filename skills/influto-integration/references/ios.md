@@ -68,8 +68,11 @@ if case .success(let verification) = try await product.purchase() {
 - Never wire both RevenueCat and store-direct — that double-reports conversions.
 
 ## 7. Verify it is live (do this last)
-After running the app once, check `GET /api/apps/{app_id}/events/recent`:
+After running the app once, check `GET /api/agent/apps/{app_id}/events/recent` with an
+`it_mcp_*` agent key (from https://influ.to/dashboard/connect-agent — the app's SDK key will
+NOT work here), or call the MCP tool `influto_integration_status`:
 - `sdk_events[]` shows each tracked event once, with the right `referral_code` + `platform`;
-- if store-direct, `webhooks[]` shows a purchase with `"attributed": true` + the referral code.
+- if store-direct, `webhooks[]` shows a purchase with `"attributed": true` + the referral code;
+- `GET /api/agent/apps/{app_id}/integration-status` rolls it all up into `{live, checklist[]}`.
 
 _Per-stack bundle: https://docs.influ.to/llms/ios.txt — Full contract: https://docs.influ.to/contract.md_

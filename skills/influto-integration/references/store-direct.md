@@ -99,7 +99,9 @@ Until the relevant check is green, `/sdk/init` keeps `store_direct:false` for th
 - Premium gate (if you also use comp codes): `RC-entitlement OR checkAccess().hasAccess`.
 
 ## Verify it is live (do this last)
-After a sandbox purchase, check `GET /api/apps/{app_id}/events/recent`:
+After a sandbox purchase, check `GET /api/agent/apps/{app_id}/events/recent` (Bearer
+`it_mcp_*` agent key — `scripts/verify_integration.py` or the MCP's `influto_recent_events` do
+this for you; the dashboard's `/api/apps/*` routes reject API keys):
 - `webhooks[]` shows the `reportPurchase` with `"attributed": true` and the matching
   `referral_code` (an organic purchase shows `"organic": true`, `referral_code: null`).
 - `sdk_events[]` shows each tracked event exactly once (deduped) with the right `platform`.

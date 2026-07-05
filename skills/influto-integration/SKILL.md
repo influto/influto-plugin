@@ -26,9 +26,10 @@ RevenueCat (webhook) **or** store-direct (Apple App Store Server API / Google Pl
    - `pubspec.yaml` → Flutter (`references/flutter.md`)
 
    (React Native overrides the bare `ios/`+`android/` folders inside an RN app.)
-2. **The InfluTo API key.** It comes from https://influ.to → create an app (or use the
-   `influto` MCP's `influto_provision` if it is connected). Read it from env/secrets — never
-   hardcode it into committed source.
+2. **The InfluTo API key.** It comes from https://influ.to → create an app — or, faster, from the
+   `influto` MCP's `influto_provision`. Connecting the MCP is one command + a browser Approve
+   (`claude mcp add --transport http influto https://influ.to/mcp` — OAuth, no keys to copy).
+   Read the app API key from env/secrets — never hardcode it into committed source.
 3. **The validation path.** Detect, then confirm with the user:
    - RevenueCat present (`react-native-purchases`, the `RevenueCat`/`Purchases` pod,
      `purchases_flutter`, `com.revenuecat.purchases`) → **RevenueCat path** (`references/revenuecat.md`).
@@ -64,9 +65,12 @@ RevenueCat (webhook) **or** store-direct (Apple App Store Server API / Google Pl
 
 ## Verify it is live (do this last — do not claim success without it)
 
-Run `scripts/verify_integration.py --app-id <APP_ID>`. It reads `INFLUTO_API_KEY` from **your**
-shell env (the script, not the model, holds the credential) and prints a checklist from the live
-`integration-status`. Or, if the `influto` MCP is connected, call `influto_integration_status`.
+If the `influto` MCP is connected (the usual case), call `influto_integration_status`. Headless /
+CI: run `scripts/verify_integration.py --app-id <APP_ID>` — it reads an `it_mcp_*` agent key from
+`INFLUTO_API_KEY` in **your** shell env (the script, not the model, holds the credential; key from
+https://influ.to/dashboard/connect-agent) and prints the same live `integration-status` checklist
+(exit 0/1, CI-gateable). These hit `/api/agent/apps/{id}/...` — the dashboard's `/api/apps/*`
+routes are session-only and reject API keys. If anything looks wrong, `influto_doctor` first.
 Confirm:
 
 - `sdk_initialized` is true with the right `last_sdk_platform`;

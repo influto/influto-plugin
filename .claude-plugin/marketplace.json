@@ -5,9 +5,9 @@
     {
       "name": "influto",
       "source": "./",
-      "description": "Integrate InfluTo referral/affiliate attribution into a mobile app and manage the platform from your editor.",
-      "version": "1.0.0",
-      "keywords": ["affiliate", "referral", "attribution", "revenuecat", "mobile-sdk"]
+      "description": "Integrate InfluTo referral/affiliate attribution into a mobile app and run the affiliate program (campaigns, bonuses, creators, analytics) from your editor — OAuth connect, no keys.",
+      "version": "2.0.0",
+      "keywords": ["affiliate", "referral", "attribution", "revenuecat", "mobile-sdk", "mcp"]
     }
   ]
 }

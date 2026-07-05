@@ -138,8 +138,9 @@ Each SDK's unit suite replays the `fixtures/*.json` golden request/response pair
 mocked HTTP layer and asserts the SDK maps identical wire bytes to identical public types.
 A live backend can additionally be checked with Schemathesis against `/openapi.json`.
 
-Backend end-to-end check after a sample-app run:
-`GET /api/apps/{id}/events/recent` →
+Backend end-to-end check after a sample-app run (agent surface — Bearer `it_mcp_*` agent key or
+OAuth token; the dashboard's `/api/apps/*` routes are session-only and reject API keys):
+`GET /api/agent/apps/{id}/events/recent` →
 - `sdk_events[]` shows each `trackEvent` exactly once (dedup) with the right `referral_code` + `platform`;
 - `webhooks[]` shows a `reportPurchase` with `"attributed": true` + the matching `referral_code`
   (organic shows `"organic": true`, `referral_code: null`).
