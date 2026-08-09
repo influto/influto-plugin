@@ -44,6 +44,9 @@ let result = await InfluTo.applyCode("FITGURU30")
 if result.success {
   // Unlock the offer
 }
+
+// The same field also redeems creator free-access codes (INFLU-…) —
+// grantsAccess / free_access in the result means unlock premium now.
 ```
 
 ## 5. Purchase validation — pick exactly ONE path

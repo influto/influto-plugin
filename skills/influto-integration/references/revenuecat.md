@@ -85,6 +85,15 @@ are ever recorded** — the webhook is the server-side half of the path.
 - The four `RENEWAL` / `CANCELLATION` / `PRODUCT_CHANGE` / `INITIAL_PURCHASE` events are the set
   InfluTo needs; enabling fewer drops recurring-commission events.
 - Premium gate (if you also use comp codes): `RC-entitlement OR checkAccess().hasAccess`.
+  Comp grants can ADDITIONALLY be mirrored into your own RevenueCat project as promotional
+  entitlements — self-serve on the InfluTo dashboard: **App Settings → Validation → "Creator
+  free-access codes"**. Paste the RC **secret** key (v1 or v2, version auto-detected on save);
+  a **v2** key also needs `project_id` (`proj…`) + `entitlement_id` (`entl…`), a **v1** key
+  needs the entitlement **lookup key** (e.g. `pro`). The `applyCode`/`setReferralCode` response
+  carries an additive `rc_grant {attempted, ok, error}` diagnostic — native access is granted
+  even when the RC mirror fails. If you gate ONLY on the RC entitlement, call
+  `Purchases.invalidateCustomerInfoCache()` after a comp redemption (`getCustomerInfo()` may
+  serve a cached result); the OR-gate sidesteps this entirely.
 
 ## 4. Verify it is live (do this last)
 After a sandbox/test purchase, check `GET /api/agent/apps/{app_id}/events/recent` (Bearer

@@ -49,6 +49,9 @@ if (result.valid && result.applied) {
 // Or drop in the ready-made UI:
 import { ReferralCodeInput } from '@influto/react-native-sdk/ui';
 <ReferralCodeInput onCodeApplied={(code) => {/* ... */}} />
+
+// The same field also redeems creator free-access codes (INFLU-…) —
+// grantsAccess / free_access in the result means unlock premium now.
 ```
 
 ## 5. Purchase validation — pick exactly ONE path

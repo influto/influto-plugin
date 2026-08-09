@@ -96,7 +96,15 @@ Until the relevant check is green, `/sdk/init` keeps `store_direct:false` for th
 - The sent-set (RN/Flutter `@influto/reported_purchases`, iOS `@influto/sent_purchases`, Android
   `influto_billing_sync_prefs`) is additive and is **NOT** cleared by `clearAttribution` — a
   returning user must not re-report old purchases.
-- Premium gate (if you also use comp codes): `RC-entitlement OR checkAccess().hasAccess`.
+- Premium gate (if you also use comp codes): `RC-entitlement OR checkAccess().hasAccess` — on
+  this path that is `store entitlement OR checkAccess().hasAccess`; comp access is
+  server-authoritative and needs ZERO extra config for store-direct apps. The
+  `applyCode`/`setReferralCode` response carries an additive `rc_grant {attempted, ok, error}`
+  diagnostic for the OPTIONAL RevenueCat promotional-entitlement mirror (only relevant if the
+  app also runs RevenueCat — self-serve at Dashboard → **App Settings → Validation → "Creator
+  free-access codes"**: RC secret key, v1/v2 auto-detected; v2 also needs `project_id` `proj…`
+  + `entitlement_id` `entl…`, v1 needs the entitlement lookup key). Native access is granted
+  even when the RC mirror fails.
 
 ## Verify it is live (do this last)
 After a sandbox purchase, check `GET /api/agent/apps/{app_id}/events/recent` (Bearer

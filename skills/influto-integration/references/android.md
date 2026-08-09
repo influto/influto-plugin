@@ -47,6 +47,9 @@ val result = InfluTo.applyCode("FITGURU30")   // suspend
 if (result.valid) {
   // Unlock the offer
 }
+
+// The same field also redeems creator free-access codes (INFLU-…) —
+// grantsAccess / free_access in the result means unlock premium now.
 ```
 
 ## 5. Purchase validation — pick exactly ONE path

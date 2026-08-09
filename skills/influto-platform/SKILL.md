@@ -109,7 +109,10 @@ The full campaign-shaping and creator surface:
    "what creators post" examples (feature the strongest 3–6); uploads go through
    `influto_get_asset_upload_link` (human opens it). If the app has `auto_issue_creator_codes` ON,
    each joining creator also gets a personal `INFLU-…` free-access code (state visible in
-   `influto_list_free_codes`); mint your own comp codes with `influto_create_free_code`.
+   `influto_list_free_codes`); mint your own comp codes with `influto_create_free_code`. The
+   optional RevenueCat mirror for these grants is configured self-serve at Dashboard → App
+   Settings → Validation → "Creator free-access codes"; `influto_list_free_codes` surfaces
+   per-code `rc_grant_issues` (failed count + latest error) when that mirror misfires.
 6. **Monitor** — `influto_get_analytics_overview` (canonical fraud-filtered clicks +
    decomposition, installs, trials, conversions, revenue, commission). Note `conversions.total`
    = PAID conversions (someone who actually subscribed); `conversions.acquired_users` = all

@@ -25,7 +25,7 @@ Wire version: **1.0.0**
 | POST | `/sdk/event` | `{eventType, appUserId, properties?, referralCode?, eventId?}` (camelCase on the wire — see §4) | `{tracked, event_id, duplicate?, dedup_reason?}` |
 | GET | `/sdk/campaigns` | — | `[{id, name, description, commission_percentage}]` |
 | POST | `/sdk/validate-code` | `{code}` | `{valid, code?, campaign?{id,name,description,commission_percentage,campaign_type}, influencer?{name,social_handle,follower_count}, custom_data?, message?, error?, error_code?}` |
-| POST | `/sdk/set-referral-code` | `{code, app_user_id?}` | `{success, code?, message, campaign?{id,name}, free_access?, grants_access?, entitlement?, expires_at?}` |
+| POST | `/sdk/set-referral-code` | `{code, app_user_id?}` | `{success, code?, message, campaign?{id,name}, free_access?, grants_access?, entitlement?, expires_at?, rc_grant?{attempted,ok,error}}` |
 | POST | `/sdk/purchase` | `{platform, app_user_id?, signedTransaction?, purchaseToken?, productId?, price?, currency?, referralCode?}` (store-direct) | `{success, validated:"apple"\|"google", environment, event_type, duplicate, recorded, result}` |
 | GET | `/sdk/attribution?app_user_id=` | — | attribution data |
 | GET | `/sdk/access?app_user_id=` | — | `{has_access, source:"comp"\|null, entitlement?, expires_at?, code?}` |
@@ -131,6 +131,10 @@ object stays in the response + SDK types for back-compat — it just isn't shown
    Seat caps + expiry are server-enforced; a later-blocked/expired code revokes access for all
    holders on the next `checkAccess`. `setReferralCode`/`applyCode` also return
    `free_access`/`grants_access`/`entitlement`/`expires_at` so the app can unlock immediately.
+   The response additionally carries an ADDITIVE diagnostic `rc_grant {attempted, ok, error}`
+   for the optional RevenueCat promotional-entitlement mirror — native access is granted
+   regardless of `rc_grant.ok`, so treat it as observability, never as a gate. The RC mirror is
+   configured self-serve on the dashboard (App Settings → Validation → "Creator free-access codes").
 
 ## 5. Verification
 
