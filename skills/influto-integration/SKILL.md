@@ -62,6 +62,17 @@ RevenueCat (webhook) **or** store-direct (Apple App Store Server API / Google Pl
 - Network calls fail-soft (benign return) **EXCEPT** `initialize()` and `reportPurchase()`, which throw.
 - RevenueCat `influto_referral` is the STRING `"true"`, never a boolean.
 - Never wire both RevenueCat and store-direct.
+- **App Review 3.1.1 — user-facing copy must never say a code "unlocks" anything.** Apple
+  rejected a production app (VoiceTask 1.4.1, 2026-08-23) for the exact subtitle
+  "Unlock special benefits": *"The app unlocks or enables additional functionality with
+  mechanisms other than In-App Purchase… the app uses a code to unlock special benefits."*
+  In every screen the USER sees, a referral/invite code only *personalizes which App Store /
+  Play subscription offer is shown at purchase* — write copy that says that and nothing more.
+  Proven-safe phrasing: "Have an invite code?" / "From a creator or a friend? Add it here." /
+  "Code applied!" / "Apply a creator or promo code". Banned in user-facing strings:
+  "unlock", "unlocked", "special benefits", "free access", "on the house", "premium for free".
+  (Developer-facing code comments may still say "unlock"; the SDK's default labels were
+  scrubbed in 1.6.x — don't reintroduce the old wording when overriding `labels`.)
 
 ## Verify it is live (do this last — do not claim success without it)
 
