@@ -84,7 +84,10 @@ The full campaign-shaping and creator surface:
 2. **Localize** — `influto_localize_campaign(campaignId, locales)`; if the server has no
    translator it returns the base copy for YOU to translate, then write back via
    `influto_update_campaign` (`name_i18n` / `description_i18n` / `ugc_ideas_i18n` merge per
-   language). Localized join links take `?lang=xx`.
+   language). Localized join links take `?lang=xx`. Translations are **stale-aware**: editing
+   the English `name`/`description` later marks every locale `stale` (old text stays live) —
+   check `translation_status` on `influto_get_campaign` and re-run localize; it refreshes only
+   what's missing or stale (`force_retranslate` redoes all).
 3. **Activate** — `influto_set_campaign_status(campaignId, "active")`. A **402** means the wallet
    escrow is short: `influto_get_wallet` shows the gap, `influto_get_wallet_topup_link` mints the
    funding URL for the human; retry after funding.
