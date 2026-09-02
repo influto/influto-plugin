@@ -3,7 +3,7 @@
 > Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **React Native** app. Package `@influto/react-native-sdk`
-(npm, v1.5.0). Source: https://github.com/influto/influto-react-native.
+(npm, v1.6.0). Source: https://github.com/influto/influto-react-native.
 
 ## 1. Install
 ```bash

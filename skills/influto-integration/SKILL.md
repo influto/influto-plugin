@@ -47,7 +47,7 @@ RevenueCat (webhook) **or** store-direct (Apple App Store Server API / Google Pl
 4. *(Optional)* add the manual `ReferralCodeInput` UI (reference §4). Privacy default: the
    referrer/campaign names are OFF — leave them off unless the user asks.
 5. **Wire the chosen validation path:**
-   - **RevenueCat:** confirm the InfluTo webhook is set on the dashboard (Settings → RevenueCat).
+   - **RevenueCat:** wire the InfluTo webhook — headless via a connected RevenueCat MCP (`create-webhook-integration` with `influto_setup_revenuecat`'s `headless.fields`), otherwise the human pastes URL + `Bearer <secret>` into RevenueCat → Integrations → Webhooks → "Add new configuration" (`dashboard_steps`). Verify with `influto_test_integration`.
      The SDK sets the `influto_code` and `influto_referral` subscriber attributes automatically —
      nothing else to call. `influto_referral` is the STRING `"true"`, never a boolean.
    - **Store-direct:** auto-capture is ON by default for store-direct apps — usually nothing to

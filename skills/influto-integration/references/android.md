@@ -3,7 +3,7 @@
 > Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **Android** app. Package `to.influ:android-sdk`
-(Maven Central, v1.0.0). Source: https://github.com/influto/influto-android.
+(Maven Central, v1.1.0). Source: https://github.com/influto/influto-android.
 
 ## 1. Install
 ```bash

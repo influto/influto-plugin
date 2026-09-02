@@ -59,19 +59,24 @@ callback. Per-SDK exact signatures:
 That is the entire app-side integration for this path. After init + `checkAttribution()` (and any
 manual `applyCode`), there is nothing else to call for purchases.
 
-## 2. Dashboard config (the human must do this once)
-The webhook is what actually drives attribution, so it must be confirmed on the InfluTo dashboard.
-
-1. Open the InfluTo dashboard → **Settings → RevenueCat**.
-2. Copy the webhook **URL** and the **webhook secret** shown there.
-3. In the **RevenueCat dashboard** → project → **Integrations → Webhooks**, add a webhook:
-   - **URL:** `https://influ.to/api/webhooks/revenuecat/{app_id}`
-   - **Authorization header:** `Bearer <webhook_secret>` (the secret from step 2).
-   - **Events to send:** `INITIAL_PURCHASE`, `RENEWAL`, `CANCELLATION`, `PRODUCT_CHANGE`.
-4. Save. Send a test event from RevenueCat (or run a sandbox purchase) and confirm it lands.
-
-Without this webhook configured, the SDK still tags subscribers correctly but **no conversions
-are ever recorded** — the webhook is the server-side half of the path.
+## 2. Webhook config (once per app — headless if a RevenueCat MCP is available)
+1. `influto_provision` (or `influto_regenerate_webhook_secret`) returned the **webhook secret** —
+   it is shown once; keep it out of source files and out of chat.
+2. `influto_setup_revenuecat` returns the webhook URL plus `headless.fields` and `dashboard_steps`.
+3. **Headless:** if a RevenueCat MCP is connected, call its `create-webhook-integration` with
+   name `InfluTo`, the returned URL, authorization header `Bearer <webhook_secret>`, environment
+   both (production + sandbox), all apps, all events. No dashboard visit needed.
+4. **Otherwise the human does it once** in RevenueCat → project → **Integrations → Webhooks →
+   "Add new configuration"** — the form has exactly these fields:
+   - **Webhook name:** anything, e.g. `InfluTo`.
+   - **Webhook URL:** `https://influ.to/api/webhooks/revenuecat/{app_id}`.
+   - **Authorization header value** — ONE field, no separate header-name field:
+     `Bearer <webhook_secret>` (InfluTo also accepts the bare secret).
+   - **Environment to send events for:** leave **Both Production and Sandbox**.
+   - **Events filter:** leave **All apps** / **All events**. **HMAC webhook signing:** leave off.
+   - Click **Add webhook**.
+5. Verify without a device: `influto_test_integration` → `influto_integration_status`
+   (`webhook_count > 0`, synthetic purchase attributed).
 
 ## 3. Invariants you must respect
 - **Pick exactly ONE path.** Do NOT also wire store-direct (`reportPurchase` / auto-capture).
