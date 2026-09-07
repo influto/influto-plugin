@@ -40,7 +40,7 @@ never a boolean.
 ## Connect the control plane (MCP — optional but the fast path)
 - One command, OAuth browser consent, no keys: `claude mcp add --transport http influto https://influ.to/mcp`
   (Codex: `codex mcp add influto --url https://influ.to/mcp`; any MCP client: HTTP server https://influ.to/mcp).
-- 57 tools: provision apps + campaigns (incl. milestone bonuses + i18n), configure
+- 58 tools: provision apps + campaigns (incl. milestone bonuses + i18n), configure
   validation, VERIFY attribution, invite creators, mint join links, read canonical analytics,
   check the wallet. Full catalog: https://docs.influ.to/llms-agents.txt (live: `influto://tools`).
 - CI fallback: `it_mcp_*` key from https://influ.to/dashboard/connect-agent as a Bearer header.
