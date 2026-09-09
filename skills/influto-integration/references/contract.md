@@ -1,7 +1,7 @@
 # InfluTo SDK — Canonical Cross-Platform Contract
 
 **This is the single source of truth every InfluTo SDK (React Native, iOS/Swift,
-Android/Kotlin, Flutter, future Web) must obey byte-for-byte.** Shapes come from the
+Android/Kotlin, Flutter, Web) must obey byte-for-byte.** Shapes come from the
 InfluTo backend; behaviors that OpenAPI can't express are pinned here.
 
 Wire version: **1.0.0**
@@ -19,8 +19,8 @@ Wire version: **1.0.0**
 
 | Method | Path | Request | Response |
 |---|---|---|---|
-| POST | `/sdk/init` | `{app_version, sdk_version, platform:"ios"\|"android"}` | `{app_id, app_name, attribution_window_hours, campaigns[], store_direct, initialized}` |
-| POST | `/sdk/track-install` | `{platform, device_id?, device_brand?, device_model?, os_version?, screen_resolution?, timezone?, language?}` | `{attributed, referral_code?, attribution_method?, clicked_at?, message}` |
+| POST | `/sdk/init` | `{app_version, sdk_version, platform:"ios"\|"android"\|"web", sdk_name?, runtime?}` (web SDK adds `sdk_name:"web"` + `runtime`) | `{app_id, app_name, attribution_window_hours, campaigns[], store_direct, initialized}` |
+| POST | `/sdk/track-install` | `{platform, device_id?, device_brand?, device_model?, os_version?, screen_resolution?, timezone?, language?, referral_code?, click_id?}` (the last two: web launch-URL / Play Install Referrer claim) | `{attributed, referral_code?, attribution_method?, clicked_at?, message}` |
 | POST | `/sdk/identify` | `{app_user_id, properties?}` | `{identified, app_user_id}` |
 | POST | `/sdk/event` | `{eventType, appUserId, properties?, referralCode?, eventId?}` (camelCase on the wire — see §4) | `{tracked, event_id, duplicate?, dedup_reason?}` |
 | GET | `/sdk/campaigns` | — | `[{id, name, description, commission_percentage}]` |
@@ -148,3 +148,27 @@ OAuth token; the dashboard's `/api/apps/*` routes are session-only and reject AP
 - `sdk_events[]` shows each `trackEvent` exactly once (dedup) with the right `referral_code` + `platform`;
 - `webhooks[]` shows a `reportPurchase` with `"attributed": true` + the matching `referral_code`
   (organic shows `"organic": true`, `referral_code: null`).
+
+## 10. Web SDK (`@influto/web`) — additions, not deviations
+
+Runs in Capacitor / Ionic, Cordova, PWAs / TWAs and browsers. Same endpoints, keys, dedup and
+fail-soft rules; these are the web-only extras:
+
+- **`platform`** = the native OS inside Capacitor/Cordova (`Capacitor.getPlatform()` / `device.platform`);
+  in a browser/PWA it is derived from the User-Agent exactly like the referral link classifies a click
+  (phones → `ios`/`android`, everything else → `web`) so clicks and installs match. `/sdk/init` also carries
+  `sdk_name:"web"` and `runtime` ∈ `capacitor|cordova|twa|pwa|browser`.
+- **Deterministic handoff.** Referral links send web visitors (and every visitor of a web-only app) to
+  `apps.web_app_url` with `?influto_code=CODE&influto_click=<click id>`; Play links carry the same pair in the
+  Play `referrer` parameter. The SDK stores them under `@influto/launch_code` (`captureLaunchCode(url)` /
+  `captureInstallReferrer(referrer)`), sends `referral_code` + `click_id` on `/sdk/track-install`, and the
+  backend claims that click (`attribution_method:"link_param"`, response adds `click_id`). A pre-existing
+  ORGANIC decision is re-opened by a captured launch code; the stored code is cleared once decided.
+- **Seams** (`InfluToConfig`): `storage` (localStorage default, Capacitor Preferences adapter), `device`,
+  `http` (fetch default), `revenueCat` (function or object with `setAttributes(map)` — Capacitor ≥ 7.5.10,
+  Cordova and purchases-js all take a flat string map; the binding retries because purchases-js does not),
+  `purchaseSource` (`digitalGoodsSource()`, `capgoNativePurchasesSource()`, `cordovaPurchaseSource()`).
+- **Auto-capture** starts on `initialize()` only when `/sdk/init` returns `store_direct:true` AND a
+  `purchaseSource` is attached. `reportPurchase()` in a browser runtime requires an explicit `platform`.
+- Compiled to ES2019 (Capacitor's Chrome-60 WebView floor); `crypto.randomUUID` has a `getRandomValues` /
+  `Math.random` fallback.

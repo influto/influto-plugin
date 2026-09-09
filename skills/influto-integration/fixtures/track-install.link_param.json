@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /sdk/track-install",
+  "request": { "platform": "web", "device_id": "5c1d2a4e-0f3b-4b7a-9d2e-6a1f8c9b0d11", "os_version": "10", "screen_resolution": "1920x1080", "timezone": "Europe/Prague", "language": "cs-CZ", "referral_code": "FITGURU30", "click_id": "0f2c7d5e-8a1b-4c3d-9e6f-1a2b3c4d5e6f" },
+  "response": { "attributed": true, "referral_code": "FITGURU30", "attribution_method": "link_param", "clicked_at": "2026-09-09T10:00:00Z", "click_id": "0f2c7d5e-8a1b-4c3d-9e6f-1a2b3c4d5e6f", "install_recorded": true, "message": "Install attributed successfully" }
+}
