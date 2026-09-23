@@ -77,7 +77,9 @@ scope; **402** = wallet escrow too low (see wallet below); **401** = reconnect /
 The full campaign-shaping and creator surface:
 
 1. **Shape the campaign** — `influto_create_campaign` / `influto_update_campaign` support
-   commission % + recurring, `avg_subscription_price` (powers the join-page earnings calculator),
+   commission % + recurring, `avg_subscription_price` + `price_period` (weekly|monthly|yearly|one_time —
+   the price of the plan most subscribers pick, per that period; powers the join-page earnings
+   calculator until the app's real purchases take over),
    public vs invite_only, and **milestone bonuses**: `bonus_rules = {"milestones": [{metric:
    installs|trials|conversions, threshold, amount, window_days?, max_awards?}]}` (max 5, $1–$1000
    each). Progress is fraud-aware (canonical clicks), so bonuses can't be farmed.
