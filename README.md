@@ -63,11 +63,11 @@ Same tools, same scopes, revocable on the dashboard. The bundled
 
 - **No secret or `it_*` key is ever a tool argument or chat message.** Store credentials (Apple
   `.p8`, Google service-account JSON, RevenueCat key, webhook secret) are uploaded by you in the
-  browser via the dashboard's write-only form — the agent only hands you a signed deep-link and
+  browser via the dashboard's write-only form — the agent only hands you a dashboard link and
   polls the green-check.
 - Agent access is org-scoped and least-privilege. Money writes, payouts, deletes, admin, and
-  reading raw credentials are **hard-denied** to agents — wallet top-ups happen via a signed
-  deep-link *you* open, never through the agent.
+  reading raw credentials are **hard-denied** to agents — wallet top-ups happen via a dashboard
+  link *you* open, never through the agent.
 - Revoke a connected agent (OAuth grant) or key any time; access ends immediately.
 
 ## Other editors

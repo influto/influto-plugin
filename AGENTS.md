@@ -1,8 +1,8 @@
 # InfluTo — notes for AI coding agents
 
 > InfluTo is a referral & affiliate ATTRIBUTION platform for mobile apps (iOS, Android,
-> React Native, Flutter). A developer creates an app + campaign at https://influ.to, drops in
-> one of four native SDKs, initializes with an API key, and InfluTo attributes installs and
+> React Native, Flutter, web/Capacitor). A developer creates an app + campaign at https://influ.to,
+> drops in one of five SDKs, initializes with an API key, and InfluTo attributes installs and
 > validates in-app purchases to influencer referral codes — via either RevenueCat (webhook)
 > or store-direct (Apple App Store Server API / Google Play service account).
 

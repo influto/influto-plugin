@@ -92,5 +92,5 @@ Golden expected wire shapes are in `fixtures/`.
 
 > **Security:** never put a secret (`.p8`, service-account JSON, RevenueCat key, webhook secret) or
 > any `it_*` API key into a chat message or a tool argument. Credentials go into env/secrets or the
-> InfluTo dashboard's write-only form (via the `influto` MCP's signed deep-link). The verify script
+> InfluTo dashboard's write-only form (via the dashboard link the `influto` MCP hands you). The verify script
 > reads the key from your own env, never from the model.
