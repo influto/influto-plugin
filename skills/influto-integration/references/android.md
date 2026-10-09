@@ -1,19 +1,19 @@
 # InfluTo — Android (Kotlin)
 
-> Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
+> Generated from `frontend/lib/sdk.ts` (wire contract v1.6.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **Android** app. Package `to.influ:android-sdk`
-(Maven Central, v1.1.0). Source: https://github.com/influto/influto-android.
+(Maven Central, v1.1.1). Source: https://github.com/influto/influto-android.
 
 ## 1. Install
 ```bash
 // build.gradle.kts
 dependencies {
-    implementation("to.influ:android-sdk:1.1.0")
+    implementation("to.influ:android-sdk:1.1.1")
     // optional: Compose code field (InfluToReferralCodeInput)
-    implementation("to.influ:android-sdk-ui:1.1.0")
+    implementation("to.influ:android-sdk-ui:1.1.1")
     // optional: store-direct purchase auto-capture
-    implementation("to.influ:android-sdk-billing:1.1.0")
+    implementation("to.influ:android-sdk-billing:1.1.1")
 }
 ```
 
@@ -58,7 +58,7 @@ if (result.valid && result.applied == true) {
 }
 
 // Or the Compose field (android-sdk-ui): InfluToReferralCodeInput(onApplied = { result -> … })
-// Free-access codes: setReferralCode(code, appUserId = userId).grantsAccess == true
+// Free-access codes (after identifyUser): setReferralCode(code).grantsAccess == true
 // → unlock premium, and gate premium on InfluTo.checkAccess().hasAccess.
 ```
 
@@ -81,7 +81,7 @@ InfluTo.reportPurchase(
 )
 ```
 
-## 6. Invariants you must respect (wire contract v1.0.0)
+## 6. Invariants you must respect (wire contract v1.6.0)
 - All local state lives under the `@influto/` key prefix.
 - Referral codes are `trim()` + `UPPERCASE` before sending.
 - Network calls fail-soft (benign return) EXCEPT `initialize()` and `reportPurchase()`, which throw.

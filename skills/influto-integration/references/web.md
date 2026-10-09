@@ -1,6 +1,6 @@
 # InfluTo — Web / Capacitor (TypeScript)
 
-> Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
+> Generated from `frontend/lib/sdk.ts` (wire contract v1.6.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **Web / Capacitor** app. Package `@influto/web`
 (npm, v1.0.0). Source: https://www.npmjs.com/package/@influto/web.
@@ -83,7 +83,7 @@ await InfluTo.reportPurchase({
 });
 ```
 
-## 6. Invariants you must respect (wire contract v1.0.0)
+## 6. Invariants you must respect (wire contract v1.6.0)
 - All local state lives under the `@influto/` key prefix.
 - Referral codes are `trim()` + `UPPERCASE` before sending.
 - Network calls fail-soft (benign return) EXCEPT `initialize()` and `reportPurchase()`, which throw.

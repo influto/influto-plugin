@@ -1,9 +1,9 @@
 # InfluTo — React Native (TypeScript)
 
-> Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
+> Generated from `frontend/lib/sdk.ts` (wire contract v1.6.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **React Native** app. Package `@influto/react-native-sdk`
-(npm, v1.6.0). Source: https://github.com/influto/influto-react-native.
+(npm, v1.6.1). Source: https://github.com/influto/influto-react-native.
 
 ## 1. Install
 ```bash
@@ -55,8 +55,8 @@ import { ReferralCodeInput } from '@influto/react-native-sdk/ui';
 <ReferralCodeInput onApplied={(result) => {/* ... */}} />
 
 // Free-access codes (INFLU-… or your comp codes): redeem with
-// setReferralCode(code, appUserId) — grantsAccess === true means unlock
-// premium now — and gate premium on (await InfluTo.checkAccess()).hasAccess.
+// setReferralCode(code) after identifyUser (or pass appUserId) — grantsAccess
+// === true means unlock premium now — and gate premium on (await InfluTo.checkAccess()).hasAccess.
 ```
 
 ## 5. Purchase validation — pick exactly ONE path
@@ -80,7 +80,7 @@ await InfluTo.reportPurchase({
 });
 ```
 
-## 6. Invariants you must respect (wire contract v1.0.0)
+## 6. Invariants you must respect (wire contract v1.6.0)
 - All local state lives under the `@influto/` key prefix.
 - Referral codes are `trim()` + `UPPERCASE` before sending.
 - Network calls fail-soft (benign return) EXCEPT `initialize()` and `reportPurchase()`, which throw.

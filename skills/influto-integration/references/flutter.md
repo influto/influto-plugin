@@ -1,9 +1,9 @@
 # InfluTo — Flutter (Dart)
 
-> Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
+> Generated from `frontend/lib/sdk.ts` (wire contract v1.6.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **Flutter** app. Package `influto`
-(pub.dev, v1.1.0). Source: https://github.com/influto/influto-flutter.
+(pub.dev, v1.1.1). Source: https://github.com/influto/influto-flutter.
 
 ## 1. Install
 ```bash
@@ -51,7 +51,7 @@ if (result.valid && result.applied == true) {
 }
 
 // Or the ready-made widget: ReferralCodeInput(onApplied: (result) { … })
-// Free-access codes: (await setReferralCode(code, appUserId: userId)).grantsAccess
+// Free-access codes (after identifyUser): (await setReferralCode(code)).grantsAccess
 // == true → unlock premium, and gate premium on (await checkAccess()).hasAccess.
 ```
 
@@ -75,7 +75,7 @@ await InfluTo.instance.reportPurchase(
 );
 ```
 
-## 6. Invariants you must respect (wire contract v1.0.0)
+## 6. Invariants you must respect (wire contract v1.6.0)
 - All local state lives under the `@influto/` key prefix.
 - Referral codes are `trim()` + `UPPERCASE` before sending.
 - Network calls fail-soft (benign return) EXCEPT `initialize()` and `reportPurchase()`, which throw.

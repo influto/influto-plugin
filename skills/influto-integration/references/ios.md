@@ -1,16 +1,16 @@
 # InfluTo — iOS (Swift)
 
-> Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
+> Generated from `frontend/lib/sdk.ts` (wire contract v1.6.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **iOS** app. Package `github.com/influto/influto-ios`
-(Swift Package Manager, v1.1.0). Source: https://github.com/influto/influto-ios.
+(Swift Package Manager, v1.1.1). Source: https://github.com/influto/influto-ios.
 
 ## 1. Install
 ```bash
 // Xcode → File → Add Package Dependencies →
-//   https://github.com/influto/influto-ios   (from 1.1.0)
+//   https://github.com/influto/influto-ios   (from 1.1.1)
 // Or in Package.swift:
-.package(url: "https://github.com/influto/influto-ios.git", from: "1.1.0")
+.package(url: "https://github.com/influto/influto-ios.git", from: "1.1.1")
 ```
 
 ## 2. Initialize (once, at startup)
@@ -49,7 +49,7 @@ if result.valid && result.applied == true {
 }
 
 // Or drop in the SwiftUI field: InfluToReferralCodeInput(onApplied: { result in … })
-// Free-access codes: setReferralCode(code, appUserId: userId).grantsAccess == true
+// Free-access codes (after identifyUser): setReferralCode(code).grantsAccess == true
 // → unlock premium, and gate premium on (await InfluTo.checkAccess()).hasAccess.
 ```
 
@@ -72,7 +72,7 @@ if case .success(let verification) = try await product.purchase() {
 }
 ```
 
-## 6. Invariants you must respect (wire contract v1.0.0)
+## 6. Invariants you must respect (wire contract v1.6.0)
 - All local state lives under the `@influto/` key prefix.
 - Referral codes are `trim()` + `UPPERCASE` before sending.
 - Network calls fail-soft (benign return) EXCEPT `initialize()` and `reportPurchase()`, which throw.

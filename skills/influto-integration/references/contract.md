@@ -4,7 +4,7 @@
 Android/Kotlin, Flutter, Web) must obey byte-for-byte.** Shapes come from the
 InfluTo backend; behaviors that OpenAPI can't express are pinned here.
 
-Wire version: **1.0.0**
+Wire version: **1.6.0**
 
 ---
 
@@ -26,7 +26,7 @@ Wire version: **1.0.0**
 | GET | `/sdk/campaigns` | — | `[{id, name, description, commission_percentage}]` |
 | POST | `/sdk/validate-code` | `{code}` | `{valid, code?, campaign?{id,name,description,commission_percentage,campaign_type}, influencer?{name,social_handle,follower_count}, custom_data?, message?, error?, error_code?}` |
 | POST | `/sdk/set-referral-code` | `{code, app_user_id?}` | `{success, code?, message, campaign?{id,name}, free_access?, grants_access?, entitlement?, expires_at?, rc_grant?{attempted,ok,error}}` |
-| POST | `/sdk/purchase` | `{platform, app_user_id?, signedTransaction?, purchaseToken?, productId?, price?, currency?, referralCode?}` (store-direct) | `{success, validated:"apple"\|"google", environment, event_type, duplicate, recorded, result}` |
+| POST | `/sdk/purchase` | `{platform, appUserId?, signedTransaction?, purchaseToken?, productId?, price?, currency?, referralCode?}` (store-direct; snake_case aliases such as `app_user_id` are accepted) | `{success, validated:"apple"\|"google", environment, event_type, duplicate, recorded, result}` |
 | GET | `/sdk/attribution?app_user_id=` | — | attribution data |
 | GET | `/sdk/access?app_user_id=` | — | `{has_access, source:"comp"\|null, entitlement?, expires_at?, code?}` |
 
@@ -56,7 +56,7 @@ object stays in the response + SDK types for back-compat — it just isn't shown
 | `getReferralCode()` | Local read of `@influto/influto_code`. |
 | `getPrefilledCode()` | Local: stored code only if `attribution.attributed`. |
 | `validateCode(code)` | Normalize (trim + UPPERCASE); POST `/sdk/validate-code`. Fail-soft → `{valid:false, error_code:"NETWORK_ERROR"}`. |
-| `setReferralCode(code, appUserId?)` | Normalize; persist code + a `manual_entry` attribution record; set RC attributes; POST `/sdk/set-referral-code`. Fail-soft → `{success:false}`. |
+| `setReferralCode(code, appUserId?)` | Normalize; `appUserId` defaults to the stored `@influto/app_user_id`; POST `/sdk/set-referral-code`; only when the server answers `success:true`, persist the code (the server's canonical `code` when returned) + a `manual_entry` attribution record and set RC attributes (a rejected code is never stored or tagged — React Native 1.6.1, iOS/Android/Flutter 1.1.1 and later). Fail-soft → `{success:false}`. |
 | `applyCode(code, appUserId?)` | `validateCode` then `setReferralCode` if valid; adds `applied`. |
 | `clearAttribution()` | Local clear of the 3 keys. |
 | **`reportPurchase({platform, signedTransaction?, purchaseToken?, productId?, price?, currency?, appUserId?, referralCode?})`** | **NEW.** Store-direct. `productId`/`price`/`currency` are for Android **one-time** products only (route to NON_RENEWING validation; omit for subscriptions — see §9). Default `referralCode` to stored `@influto/influto_code`. POST `/sdk/purchase`. **THROWS on failure**; a **503** means FX-unavailable → caller should retry. |
@@ -74,12 +74,15 @@ object stays in the response + SDK types for back-compat — it just isn't shown
    with the backend, which also uppercases).
 3. **Local persistence.** All local keys live under the prefix `@influto/`, exactly:
    `@influto/attribution` (JSON), `@influto/influto_code`, `@influto/app_user_id`,
-   `@influto/initialized`. Byte-identical across SDKs.
+   `@influto/initialized`, `@influto/install_id` (random per-install ID, since 1.6.0) and
+   `@influto/access` (cached positive `checkAccess`, 5 min). Byte-identical across SDKs.
+   SDKs that capture purchases may keep their own `@influto/…` bookkeeping keys; the web
+   SDK also keeps `@influto/launch_code`.
 4. **Fail-soft.** Network/parse errors return a benign value and NEVER throw to the host —
    EXCEPT `initialize` and `reportPurchase`, which throw. Fallback shapes:
    `checkAttribution → {attributed:false}`, `getActiveCampaigns → []`,
    `validateCode → {valid:false, error_code:"NETWORK_ERROR"}`, `setReferralCode → {success:false}`.
-5. **RevenueCat attributes.** On attribution found AND on
+5. **RevenueCat attributes.** On attribution found AND on a successful (`success:true`)
    `setReferralCode`/`applyCode`, set these RevenueCat subscriber attributes (if the host
    uses RevenueCat). The backend's RC webhook + Targeting rules read them:
 
@@ -149,7 +152,7 @@ OAuth token; the dashboard's `/api/apps/*` routes are session-only and reject AP
 - `webhooks[]` shows a `reportPurchase` with `"attributed": true` + the matching `referral_code`
   (organic shows `"organic": true`, `referral_code: null`).
 
-## 10. Web SDK (`@influto/web`) — additions, not deviations
+## 6. Web SDK (`@influto/web`) — additions, not deviations
 
 Runs in Capacitor / Ionic, Cordova, PWAs / TWAs and browsers. Same endpoints, keys, dedup and
 fail-soft rules; these are the web-only extras:
