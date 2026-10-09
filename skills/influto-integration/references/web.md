@@ -3,13 +3,13 @@
 > Generated from `frontend/lib/sdk.ts` (wire contract v1.0.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **Web / Capacitor** app. Package `@influto/web`
-(npm, v1.0.0). Source: https://github.com/influto/influto-web.
+(npm, v1.0.0). Source: https://www.npmjs.com/package/@influto/web.
 
 ## 1. Install
 ```bash
 npm install @influto/web
-# Capacitor / Ionic apps: the SDK reads the native device via @capacitor/device (optional)
-npm install @capacitor/device @capacitor/preferences
+# Capacitor / Ionic apps (device info, storage, deep links):
+npm install @capacitor/device @capacitor/preferences @capacitor/app
 ```
 
 ## 2. Initialize (once, at startup)
@@ -24,7 +24,7 @@ await InfluTo.initialize({
   apiKey: 'YOUR_API_KEY',
   appVersion: '1.2.3',
   ...(await capacitorAdapters()),   // omit in a plain PWA / browser
-  // revenueCat: Purchases,         // @revenuecat/purchases-capacitor, purchases-js or cordova-plugin-purchases
+  // RevenueCat apps: revenueCat: revenueCatCapacitor(Purchases)  (from '@influto/web/revenuecat')
 });
 ```
 
@@ -43,8 +43,10 @@ if (attribution.attributed) {
 ```
 
 ## 4. Manual referral-code entry (optional)
-Let a user type a code. The prebuilt `ReferralCodeInput` shows only the field + a valid/invalid
-state by default — the influencer/campaign **names are OFF unless you opt in**.
+Let a user type a code. The prebuilt code field (`ReferralCodeInput` on React Native, Flutter and web;
+`InfluToReferralCodeInput` on iOS and Android) shows only the field + a valid/invalid state by
+default — the creator/campaign **names are OFF unless you opt in**. Free-access (comp) codes are
+redeemed with `setReferralCode()` (`grantsAccess`); gate premium on `checkAccess()`.
 ```ts
 // Validate, then apply a code the user typed
 const result = await InfluTo.applyCode('FITGURU30');
@@ -56,14 +58,18 @@ if (result.valid && result.applied) {
 import { ReferralCodeInput } from '@influto/web/react';
 <ReferralCodeInput onCodeApplied={(code) => {/* ... */}} />
 
-// The same field also redeems creator free-access codes (INFLU-…) —
-// grantsAccess / free_access in the result means unlock premium now.
+// Free-access codes: (await InfluTo.setReferralCode(code)).grantsAccess → unlock
+// premium, and gate premium on (await InfluTo.checkAccess()).hasAccess.
 ```
 
 ## 5. Purchase validation — pick exactly ONE path
 - **RevenueCat**: the SDK sets the `influto_code` + `influto_referral` ("true", a STRING) subscriber
-  attributes automatically; you only confirm the webhook on the InfluTo dashboard. Nothing to call here.
-- **Store-direct** (no RevenueCat): auto-capture is ON by default — usually nothing to call. Report
+  attributes — automatically on React Native (when react-native-purchases is installed) and Android
+  (reflection); on iOS pass `revenueCatAttributeSetter`, on Flutter `revenueCatHook`, on web a
+  `revenueCat` binding. Then wire the webhook on the InfluTo dashboard (Setup & SDK → Webhook).
+- **Store-direct** (no RevenueCat): auto-capture runs once the platform's capture code is present —
+  iOS built in; React Native needs expo-iap or react-native-iap; Android needs to.influ:android-sdk-billing;
+  Flutter needs influto_iap + InfluToPurchaseObserver().enable(); web needs a purchaseSource. Report
   manually only if you disabled auto-capture (then keep `autoCapture:false` so exactly one path runs).
   **`reportPurchase()` THROWS**; a 503 means retry (FX rate). Android one-time products must pass `productId`.
 ```ts
@@ -92,4 +98,4 @@ NOT work here), or call the MCP tool `influto_integration_status`:
 - if store-direct, `webhooks[]` shows a purchase with `"attributed": true` + the referral code;
 - `GET /api/agent/apps/{app_id}/integration-status` rolls it all up into `{live, checklist[]}`.
 
-_Per-stack bundle: https://docs.influ.to/llms/web.txt — Full contract: https://docs.influ.to/contract.md_
+Per-stack bundle: https://docs.influ.to/llms/web.txt · Full guide: https://docs.influ.to/sdk/web.md · Wire contract: https://docs.influ.to/contract.md

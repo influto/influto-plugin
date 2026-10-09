@@ -9,11 +9,11 @@ Add InfluTo referral/affiliate attribution to a **Android** app. Package `to.inf
 ```bash
 // build.gradle.kts
 dependencies {
-    implementation("to.influ:android-sdk:1.0.0")
-    // optional: Compose UI (ReferralCodeInput)
-    implementation("to.influ:android-sdk-ui:1.0.0")
+    implementation("to.influ:android-sdk:1.1.0")
+    // optional: Compose code field (InfluToReferralCodeInput)
+    implementation("to.influ:android-sdk-ui:1.1.0")
     // optional: store-direct purchase auto-capture
-    implementation("to.influ:android-sdk-billing:1.0.0")
+    implementation("to.influ:android-sdk-billing:1.1.0")
 }
 ```
 
@@ -24,8 +24,15 @@ error, do not swallow it. Read the API key from env/secrets; never hardcode it i
 import to.influ.sdk.InfluTo
 import to.influ.sdk.InfluToConfig
 
-// Call once (e.g. in Application.onCreate)
-InfluTo.initialize(context, InfluToConfig(apiKey = "YOUR_API_KEY"))
+// Call once at startup. initialize() is a suspend function — launch it from a
+// coroutine, or use the callback overload: InfluTo.initialize(context, config) { result -> }
+lifecycleScope.launch {
+  InfluTo.initialize(applicationContext, InfluToConfig(
+    apiKey = "YOUR_API_KEY",
+    // RevenueCat apps: optional explicit setter (otherwise found by reflection)
+    // revenueCatAttributeSetter = { attrs -> Purchases.sharedInstance.setAttributes(attrs) },
+  ))
+}
 ```
 
 ## 3. Check attribution (at launch)
@@ -39,23 +46,30 @@ if (attribution.attributed) {
 ```
 
 ## 4. Manual referral-code entry (optional)
-Let a user type a code. The prebuilt `ReferralCodeInput` shows only the field + a valid/invalid
-state by default — the influencer/campaign **names are OFF unless you opt in**.
+Let a user type a code. The prebuilt code field (`ReferralCodeInput` on React Native, Flutter and web;
+`InfluToReferralCodeInput` on iOS and Android) shows only the field + a valid/invalid state by
+default — the creator/campaign **names are OFF unless you opt in**. Free-access (comp) codes are
+redeemed with `setReferralCode()` (`grantsAccess`); gate premium on `checkAccess()`.
 ```kotlin
 // Validate + apply a code the user typed
 val result = InfluTo.applyCode("FITGURU30")   // suspend
-if (result.valid) {
+if (result.valid && result.applied == true) {
   // Unlock the offer
 }
 
-// The same field also redeems creator free-access codes (INFLU-…) —
-// grantsAccess / free_access in the result means unlock premium now.
+// Or the Compose field (android-sdk-ui): InfluToReferralCodeInput(onApplied = { result -> … })
+// Free-access codes: setReferralCode(code, appUserId = userId).grantsAccess == true
+// → unlock premium, and gate premium on InfluTo.checkAccess().hasAccess.
 ```
 
 ## 5. Purchase validation — pick exactly ONE path
 - **RevenueCat**: the SDK sets the `influto_code` + `influto_referral` ("true", a STRING) subscriber
-  attributes automatically; you only confirm the webhook on the InfluTo dashboard. Nothing to call here.
-- **Store-direct** (no RevenueCat): auto-capture is ON by default — usually nothing to call. Report
+  attributes — automatically on React Native (when react-native-purchases is installed) and Android
+  (reflection); on iOS pass `revenueCatAttributeSetter`, on Flutter `revenueCatHook`, on web a
+  `revenueCat` binding. Then wire the webhook on the InfluTo dashboard (Setup & SDK → Webhook).
+- **Store-direct** (no RevenueCat): auto-capture runs once the platform's capture code is present —
+  iOS built in; React Native needs expo-iap or react-native-iap; Android needs to.influ:android-sdk-billing;
+  Flutter needs influto_iap + InfluToPurchaseObserver().enable(); web needs a purchaseSource. Report
   manually only if you disabled auto-capture (then keep `autoCapture:false` so exactly one path runs).
   **`reportPurchase()` THROWS**; a 503 means retry (FX rate). Android one-time products must pass `productId`.
 ```kotlin
@@ -82,4 +96,4 @@ NOT work here), or call the MCP tool `influto_integration_status`:
 - if store-direct, `webhooks[]` shows a purchase with `"attributed": true` + the referral code;
 - `GET /api/agent/apps/{app_id}/integration-status` rolls it all up into `{live, checklist[]}`.
 
-_Per-stack bundle: https://docs.influ.to/llms/android.txt — Full contract: https://docs.influ.to/contract.md_
+Per-stack bundle: https://docs.influ.to/llms/android.txt · Full guide: https://docs.influ.to/sdk/android.md · Wire contract: https://docs.influ.to/contract.md

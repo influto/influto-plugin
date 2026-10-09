@@ -22,9 +22,9 @@ never a boolean.
 | Platform | Language | Package | Registry | Version |
 |---|---|---|---|---|
 | React Native | TypeScript | `@influto/react-native-sdk` | npm | v1.6.0 |
-| iOS | Swift | `github.com/influto/influto-ios` | Swift Package Manager | v1.0.0 |
+| iOS | Swift | `github.com/influto/influto-ios` | Swift Package Manager | v1.1.0 |
 | Android | Kotlin | `to.influ:android-sdk` | Maven Central | v1.1.0 |
-| Flutter | Dart | `influto` | pub.dev | v1.0.0 |
+| Flutter | Dart | `influto` | pub.dev | v1.1.0 |
 | Web / Capacitor | TypeScript | `@influto/web` | npm | v1.0.0 |
 
 - Expo / React Native → React Native SDK · SwiftUI / UIKit → iOS · Kotlin / Java → Android · Dart → Flutter.
