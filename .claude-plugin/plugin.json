@@ -1,7 +1,7 @@
 {
   "name": "influto",
   "displayName": "InfluTo",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Wire InfluTo referral/affiliate attribution into a mobile app (iOS, Android, React Native, Flutter), pick RevenueCat vs store-direct validation, and verify it is live \u2014 then run the whole affiliate program from the editor: campaigns with milestone bonuses, creator invites and join links, fraud-filtered analytics. Connects via OAuth in one browser click (no keys to copy).",
   "author": {
     "name": "InfluTo Team",

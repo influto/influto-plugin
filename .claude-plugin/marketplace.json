@@ -10,7 +10,7 @@
       "name": "influto",
       "source": "./",
       "description": "Integrate InfluTo referral/affiliate attribution into a mobile app and run the affiliate program (campaigns, bonuses, creators, analytics) from your editor \u2014 OAuth connect, no keys.",
-      "version": "2.1.2",
+      "version": "2.1.3",
       "keywords": [
         "affiliate",
         "referral",
