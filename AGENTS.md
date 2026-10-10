@@ -25,7 +25,7 @@ never a boolean.
 | iOS | Swift | `github.com/influto/influto-ios` | Swift Package Manager | v1.1.1 |
 | Android | Kotlin | `to.influ:android-sdk` | Maven Central | v1.1.1 |
 | Flutter | Dart | `influto` | pub.dev | v1.1.1 |
-| Web / Capacitor | TypeScript | `@influto/web` | npm | v1.0.0 |
+| Web / Capacitor | TypeScript | `@influto/web` | npm | v1.0.1 |
 
 - Expo / React Native → React Native SDK · SwiftUI / UIKit → iOS · Kotlin / Java → Android · Dart → Flutter.
 

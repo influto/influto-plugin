@@ -3,7 +3,7 @@
 > Generated from `frontend/lib/sdk.ts` (wire contract v1.6.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **Web / Capacitor** app. Package `@influto/web`
-(npm, v1.0.0). Source: https://www.npmjs.com/package/@influto/web.
+(npm, v1.0.1). Source: https://www.npmjs.com/package/@influto/web.
 
 ## 1. Install
 ```bash
