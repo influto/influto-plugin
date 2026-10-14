@@ -21,7 +21,7 @@ never a boolean.
 
 | Platform | Language | Package | Registry | Version |
 |---|---|---|---|---|
-| React Native | TypeScript | `@influto/react-native-sdk` | npm | v1.6.1 |
+| React Native | TypeScript | `@influto/react-native-sdk` | npm | v1.7.0 |
 | iOS | Swift | `github.com/influto/influto-ios` | Swift Package Manager | v1.1.1 |
 | Android | Kotlin | `to.influ:android-sdk` | Maven Central | v1.1.1 |
 | Flutter | Dart | `influto` | pub.dev | v1.1.1 |
