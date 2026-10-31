@@ -5,7 +5,7 @@ Native, Flutter) — directly from your AI coding agent, and run your affiliate 
 leaving the editor: campaigns with milestone bonuses, creator invites and join links,
 fraud-filtered analytics, and live verification that conversions really attributed.
 
-This plugin bundles **two skills** and the **InfluTo MCP server** (55 tools):
+This plugin bundles **two skills** and the **InfluTo MCP server** (67 tools):
 
 | Skill | What it does |
 |---|---|
