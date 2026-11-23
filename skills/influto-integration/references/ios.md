@@ -3,14 +3,14 @@
 > Generated from `frontend/lib/sdk.ts` (wire contract v1.6.0). Do not edit by hand.
 
 Add InfluTo referral/affiliate attribution to a **iOS** app. Package `github.com/influto/influto-ios`
-(Swift Package Manager, v1.1.1). Source: https://github.com/influto/influto-ios.
+(Swift Package Manager, v1.2.0). Source: https://github.com/influto/influto-ios.
 
 ## 1. Install
 ```bash
 // Xcode → File → Add Package Dependencies →
-//   https://github.com/influto/influto-ios   (from 1.1.1)
+//   https://github.com/influto/influto-ios   (from 1.2.0)
 // Or in Package.swift:
-.package(url: "https://github.com/influto/influto-ios.git", from: "1.1.1")
+.package(url: "https://github.com/influto/influto-ios.git", from: "1.2.0")
 ```
 
 ## 2. Initialize (once, at startup)
